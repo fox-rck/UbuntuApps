@@ -22,16 +22,16 @@ http.createServer(function (req, res) {
     );
     function getfile() {
         var filePath = path.join("uploads", '0c380e3f40a7fec0b3597b9b9cd10444.jpg');
-        var stat = fileSystem.statSync(filePath);
+        var stat = fs.statSync(filePath);
         console.log(filePath);
-        response.writeHead(200, {
+        res.writeHead(200, {
             'Content-Type': 'image/JPEG',
             'Content-Length': stat.size
         });
 
-        var readStream = fileSystem.createReadStream(filePath);
+        var readStream = fs.createReadStream(filePath);
         // We replaced all the event handlers with a simple call to readStream.pipe()
-        readStream.pipe(response);
+        readStream.pipe(res);
     }
     function upload() {
         // parse a file upload
