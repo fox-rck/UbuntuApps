@@ -23,7 +23,7 @@ http.createServer(function (req, res) {
     function getfile() {
         var filePath = path.join("uploads", '0c380e3f40a7fec0b3597b9b9cd10444.jpg');
         var stat = fileSystem.statSync(filePath);
-
+        console.log(filePath);
         response.writeHead(200, {
             'Content-Type': 'image/JPEG',
             'Content-Length': stat.size
