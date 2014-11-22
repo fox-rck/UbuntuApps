@@ -11,15 +11,17 @@ http.createServer(function (req, res) {
     if (req.url == '/file') {
         getfile();
     }
-
-    // show a file upload form
-    res.writeHead(200, { 'content-type': 'text/html' });
-    res.end(
-      '<form action="/upload" enctype="multipart/form-data" method="post">' +
-      '<input type="file" name="file" multiple="multiple"><br>' +
-      '<input type="submit" value="Upload">' +
-      '</form>'
-    );
+    if (req.url == '/') {
+        // show a file upload form
+        res.writeHead(200, { 'content-type': 'text/html' });
+        res.end(
+          '<form action="/upload" enctype="multipart/form-data" method="post">' +
+          '<input type="file" name="file" multiple="multiple"><br>' +
+          '<input type="submit" value="Upload">' +
+          '</form>'
+        );
+    }
+   
     function getfile() {
         var filePath = path.join("uploads", '0c380e3f40a7fec0b3597b9b9cd10444.jpg');
         var stat = fs.statSync(filePath);
