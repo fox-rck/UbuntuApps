@@ -22,11 +22,11 @@ http.createServer(function (req, res) {
                 fs.writeFile(new_path, data, function(err) {
                     fs.unlink(old_path, function(err) {
                         if (err) {
-                            res.status(500);
+                            res.writeHead(500);
                             res.json({'success': false});
                         } else {
-                            res.status(200);
-                            res.json({'success': true});
+                            res.writeHead(200);
+                            res.json({ 'success': new_path });
                         }
                     });
                 });
