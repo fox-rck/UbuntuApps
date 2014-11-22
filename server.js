@@ -23,10 +23,10 @@ http.createServer(function (req, res) {
                     fs.unlink(old_path, function(err) {
                         if (err) {
                             res.writeHead(500);
-                            res.end({'success': false});
+                            res.end('error');
                         } else {
                             res.writeHead(200);
-                            res.end({ 'success': new_path });
+                            res.end(new_path );
                         }
                     });
                 });
