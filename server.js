@@ -113,9 +113,9 @@ var formidable = require('formidable'),
                                         res.writeHead(200,{ 'content-type': 'text/json' });
                                         res.end(JSON.stringify({ name: newElm._id.toString(), ext: file_ext }));
                                         if (file_ext == "jpg") {
-                                            var image = new Thumbbot('image.png');
+                                            var image = new Thumbbot(new_path);
                                             image.resize(200, 200); // width, height
-                                            var thumbnail = yield image.save();
+                                            var thumbnail = image.save();
                                         }
                                     })
                                  
