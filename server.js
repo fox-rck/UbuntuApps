@@ -6,6 +6,7 @@ var formidable = require('formidable'),
     var express = require('express')
     var app = express()
     var router = express.Router();
+    app.set('views', __dirname + '/app/views')
 
     router.use(function (req, res, next) {
         console.log('Time:', Date.now());
@@ -29,13 +30,13 @@ var formidable = require('formidable'),
         else next(); // 
     }, function (req, res, next) {
         // render a regular page
-        res.render('regular:'+req.params.id);
+        res.write('regular:' + req.params.id);
     });
 
     // handler for /user/:id which renders a special page
     router.get('/file/:id', function (req, res, next) {
         console.log(req.params.id);
-        res.render('special:' + req.params.id);
+        res.write('special:' + req.params.id);
     });
 
     // mount the router on the app
