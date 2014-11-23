@@ -53,7 +53,7 @@ var formidable = require('formidable'),
             // else pass the control to the next middleware in this stack
         else next(); // 
     }, function (req, res, next) {
-        colllection.findOne({'_id': db.ObjectId(req.params.id)  }, function(err, result) {
+        collection.findOne({'_id': db.ObjectId(req.params.id)  }, function(err, result) {
             if(result){
                 var filePath = path.join(process.env.PWD, '/uploads/', result.name + '.' + result.ext);
                 var stat = fs.statSync(filePath);
