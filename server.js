@@ -48,6 +48,9 @@ var formidable = require('formidable'),
         // render a regular page
         collection.find({ _id: req.params.id }).toArray(function (err, results) {
             console.dir(results);
+            if (results[0]) {
+                var filePath = path.join(process.env.PWD, '/uploads/', results[0].name+'.'+results[0].ext);
+            }
         // Let's close the db
     });
         res.end("found");
