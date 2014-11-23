@@ -11,8 +11,16 @@ var formidable = require('formidable'),
     var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
+    var Schema = mongoose.Schema;
 
-    var dbserver = new Server('localhost', 27017, { auto_reconnect: true });
+    var FileSchema = new Schema({
+        id:Integer,
+        path: String
+    });
+    var File = db.model('File', FileSchema);
+
+
+    var dbserver = new Server('localhost', 27017, { auto_reconnect: true,safe:false });
     db = new Db('fileServer', dbserver);
 
     db.open(function (err, db) {
