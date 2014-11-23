@@ -2,11 +2,13 @@ var formidable = require('formidable'),
     http = require('http'),
     util = require('util');
     fs = require('fs'),
-    path = require('path');
-    var express = require('express')
+    path = require('path'),
+    Thumbbot = require('thumbbot'),
+    express = require('express'),
+    mongo = require('mongodb');
     var app = express();
     var router = express.Router();
-    var mongo = require('mongodb');
+    
     var BSON = mongo.BSONPure;
     
     var Server = mongo.Server,
@@ -72,26 +74,6 @@ var formidable = require('formidable'),
             }
         });
 
-    //    collection.find({ _id: new ObjectId(req.params.id) }).toArray(function (err, results) {
-    //        console.dir(results);
-    //        if (results[0]) {
-    //            var filePath = path.join(process.env.PWD, '/uploads/', results[0].name + '.' + results[0].ext);
-    //            var stat = fs.statSync(filePath);
-    //            console.log(filePath);
-    //            res.writeHead(200, {
-    //                'Content-Type': 'image/JPEG',
-    //                'Content-Length': stat.size
-    //            });
-
-    //            var readStream = fs.createReadStream(filePath);
-    //            // We replaced all the event handlers with a simple call to readStream.pipe()
-    //            readStream.pipe(res);
-    //        } else {
-    //            res.end("File not found");
-    //        }
-    //    // Let's close the db
-    //});
-      
     });
 
     // handler for /user/:id which renders a special page
@@ -130,6 +112,11 @@ var formidable = require('formidable'),
                                         console.log(newElm);
                                         res.writeHead(200,{ 'content-type': 'text/json' });
                                         res.end(JSON.stringify({ name: newElm._id.toString(), ext: file_ext }));
+                                        if (file_ext == "jpg") {
+                                            var image = new Thumbbot('image.png');
+                                            image.resize(200, 200); // width, height
+                                            var thumbnail = yield image.save();
+                                        }
                                     })
                                  
                                 }
@@ -151,73 +138,3 @@ var formidable = require('formidable'),
 
     })
 
-//    var server = app.listen(3000, function () {
-
-//        var host = server.address().address
-//        var port = server.address().port
-
-//        console.log('Example app listening at http://%s:%s', host, port)
-
-//    })
-
-//http.createServer(function (req, res) {
-//    if (req.url == '/upload' && req.method.toLowerCase() == 'post') {
-//        upload();
-//    }
-//    if (req.url == '/file') {
-//        getfile();
-//    }
-//    if (req.url == '/') {
-//        // show a file upload form
-//        res.writeHead(200, { 'content-type': 'text/html' });
-//        res.end(
-//          '<form action="/upload" enctype="multipart/form-data" method="post">' +
-//          '<input type="file" name="file" multiple="multiple"><br>' +
-//          '<input type="submit" value="Upload">' +
-//          '</form>'
-//        );
-//    }
-   
-//    function getfile() {
-//        var filePath = path.join(process.env.PWD, '/uploads/', '0c380e3f40a7fec0b3597b9b9cd10444.jpg');
-//        var stat = fs.statSync(filePath);
-//        console.log(filePath);
-//        res.writeHead(200, {
-//            'Content-Type': 'image/JPEG',
-//            'Content-Length': stat.size
-//        });
-
-//        var readStream = fs.createReadStream(filePath);
-//        // We replaced all the event handlers with a simple call to readStream.pipe()
-//        readStream.pipe(res);
-//    }
-//    function upload() {
-//        // parse a file upload
-//        var form = new formidable.IncomingForm();
-
-//        form.parse(req, function (err, fields, files) {
-//            // `file` is the name of the <input> field of type `file`
-//            var old_path = files.file.path,
-//                file_size = files.file.size,
-//                file_ext = files.file.name.split('.').pop(),
-//                index = old_path.lastIndexOf('/') + 1,
-//                file_name = old_path.substr(index),
-//                new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
-
-//            fs.readFile(old_path, function (err, data) {
-//                fs.writeFile(new_path, data, function (err) {
-//                    fs.unlink(old_path, function (err) {
-//                        if (err) {
-//                            res.writeHead(500);
-//                            res.end('error');
-//                        } else {
-//                            res.writeHead(200);
-//                            res.end(new_path);
-//                        }
-//                    });
-//                });
-//            });
-//        });
-//        return;
-//    }
-//}).listen(3000);
