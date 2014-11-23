@@ -47,10 +47,10 @@ var formidable = require('formidable'),
     }, function (req, res, next) {
         // render a regular page
         collection.find({ _id: req.params.id }).toArray(function (err, results) {
-            console.dir(results[0] || {});
+            console.dir(results);
         // Let's close the db
     });
-        res.end(found);
+        res.end("found");
     });
 
     // handler for /user/:id which renders a special page
