@@ -7,7 +7,8 @@ var formidable = require('formidable'),
     var app = express();
     var router = express.Router();
     var mongo = require('mongodb');
-
+    var BSON = mongo.BSONPure;
+    
     var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
@@ -53,7 +54,8 @@ var formidable = require('formidable'),
             // else pass the control to the next middleware in this stack
         else next(); // 
     }, function (req, res, next) {
-        collection.findOne({'_id': db.ObjectId(req.params.id)  }, function(err, result) {
+        var obj_id = BSON.ObjectID.createFromHexString(req.params.id);
+        collection.findOne({ '_id': obj_id }, function (err, result) {
             if(result){
                 var filePath = path.join(process.env.PWD, '/uploads/', result.name + '.' + result.ext);
                 var stat = fs.statSync(filePath);
