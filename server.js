@@ -30,13 +30,13 @@ var formidable = require('formidable'),
         else next(); // 
     }, function (req, res, next) {
         // render a regular page
-        res.write('regular:' + req.params.id);
+        res.end('regular:' + req.params.id);
     });
 
     // handler for /user/:id which renders a special page
     router.get('/file/:id', function (req, res, next) {
         console.log(req.params.id);
-        res.write('special:' + req.params.id);
+        res.end('special:' + req.params.id);
     });
 
     // mount the router on the app
