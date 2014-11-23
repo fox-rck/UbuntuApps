@@ -128,8 +128,8 @@ var formidable = require('formidable'),
                                     var newElm = { name: file_name, ext: file_ext };
                                     collection.insert(newElm, function (err, docsInserted) {
                                         console.log(newElm);
-                                        res.writeHead(200);
-                                        res.end(newElm._id);
+                                        res.writeHead(200,{ 'content-type': 'text/json' });
+                                        res.end(newElm._idtoString());
                                     })
                                  
                                 }
