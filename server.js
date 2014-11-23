@@ -65,6 +65,7 @@ var formidable = require('formidable'),
             }else{
                 res.write("Could not find file");
             }
+        });
 
     //    collection.find({ _id: new ObjectId(req.params.id) }).toArray(function (err, results) {
     //        console.dir(results);
