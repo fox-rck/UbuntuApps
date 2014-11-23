@@ -4,8 +4,29 @@ var formidable = require('formidable'),
     fs = require('fs'),
     path = require('path');
     var express = require('express')
-    var app = express()
+    var app = express();
     var router = express.Router();
+    var mongo = require('mongodb');
+
+    var Server = mongo.Server,
+    Db = mongo.Db,
+    BSON = mongo.BSONPure;
+
+    var dbserver = new Server('localhost', 27017, { auto_reconnect: true });
+    db = new Db('fileServer', dbserver);
+
+    db.open(function (err, db) {
+        if (!err) {
+            console.log("Connected to 'fileServer' database");
+            db.collection('wines', { strict: true }, function (err, collection) {
+                if (err) {
+                    console.log("The 'wines' collection doesn't exist. Creating it with sample data...");
+                    populateDB();
+                }
+            });
+        }
+    });
+
     app.set('views', __dirname + '/app/views')
 
     router.use(function (req, res, next) {
