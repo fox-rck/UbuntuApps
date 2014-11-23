@@ -11,26 +11,14 @@ var formidable = require('formidable'),
     var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
-    var Schema = mongo.Schema;
 
-    var FileSchema = new Schema({
-        path: String,
-        ext:String
-    });
-    var File = db.model('File', FileSchema);
-
-    var dbserver = new Server('localhost', 27017, { auto_reconnect: true,safe:false });
+    var dbserver = new Server('localhost', 27017, { auto_reconnect: true });
     db = new Db('fileServer', dbserver);
-
+    var collection;
     db.open(function (err, db) {
         if (!err) {
             console.log("Connected to 'fileServer' database");
-            db.collection('wines', { strict: true }, function (err, collection) {
-                if (err) {
-                    console.log("The 'wines' collection doesn't exist. Creating it with sample data...");
-                    populateDB();
-                }
-            });
+            collection = db.collection('File');
         }
     });
 
@@ -58,6 +46,11 @@ var formidable = require('formidable'),
         else next(); // 
     }, function (req, res, next) {
         // render a regular page
+        collection.find().toArray(function (err, results) {
+            console.dir(results);
+            // Let's close the db
+            db.close();
+        });
         res.end('regular:' + req.params.id);
     });
 
