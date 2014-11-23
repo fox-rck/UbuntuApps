@@ -53,26 +53,38 @@ var formidable = require('formidable'),
             // else pass the control to the next middleware in this stack
         else next(); // 
     }, function (req, res, next) {
-        // render a regular page
-        collection.find({ _id: ObjectId(req.params.id) }).toArray(function (err, results) {
-            console.dir(results);
-            if (results[0]) {
-                var filePath = path.join(process.env.PWD, '/uploads/', results[0].name + '.' + results[0].ext);
+        colllection.findOne({'_id': db.ObjectId(req.params.id)  }, function(err, result) {
+            if(result){
+                var filePath = path.join(process.env.PWD, '/uploads/', result.name + '.' + result.ext);
                 var stat = fs.statSync(filePath);
                 console.log(filePath);
                 res.writeHead(200, {
                     'Content-Type': 'image/JPEG',
                     'Content-Length': stat.size
                 });
-
-                var readStream = fs.createReadStream(filePath);
-                // We replaced all the event handlers with a simple call to readStream.pipe()
-                readStream.pipe(res);
-            } else {
-                res.end("File not found");
+            }else{
+                res.write("Could not find file");
             }
-        // Let's close the db
-    });
+
+    //    collection.find({ _id: new ObjectId(req.params.id) }).toArray(function (err, results) {
+    //        console.dir(results);
+    //        if (results[0]) {
+    //            var filePath = path.join(process.env.PWD, '/uploads/', results[0].name + '.' + results[0].ext);
+    //            var stat = fs.statSync(filePath);
+    //            console.log(filePath);
+    //            res.writeHead(200, {
+    //                'Content-Type': 'image/JPEG',
+    //                'Content-Length': stat.size
+    //            });
+
+    //            var readStream = fs.createReadStream(filePath);
+    //            // We replaced all the event handlers with a simple call to readStream.pipe()
+    //            readStream.pipe(res);
+    //        } else {
+    //            res.end("File not found");
+    //        }
+    //    // Let's close the db
+    //});
       
     });
 
