@@ -64,6 +64,9 @@ var formidable = require('formidable'),
                     'Content-Type': 'image/JPEG',
                     'Content-Length': stat.size
                 });
+                var readStream = fs.createReadStream(filePath);
+                //            // We replaced all the event handlers with a simple call to readStream.pipe()
+                            readStream.pipe(res);
             }else{
                 res.write("Could not find file");
             }
