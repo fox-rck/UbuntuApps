@@ -46,9 +46,11 @@ var formidable = require('formidable'),
         else next(); // 
     }, function (req, res, next) {
         // render a regular page
-        var elm = collection.find({ _id: req.params.id });
-        console.log(elm)
-        res.end(elm.toString());
+        collection.find({ _id: req.params.id }).toArray(function (err, results) {
+            console.dir(results[0] || {});
+        // Let's close the db
+    });
+        res.end(found);
     });
 
     // handler for /user/:id which renders a special page
