@@ -11,7 +11,7 @@ var formidable = require('formidable'),
     var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
-    var Schema = mongoose.Schema;
+    var Schema = mongo.Schema;
 
     var FileSchema = new Schema({
         path: String,
