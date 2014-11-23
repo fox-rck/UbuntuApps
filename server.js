@@ -110,7 +110,7 @@ var formidable = require('formidable'),
                                     var newElm = collection.insert({ name: file_name, ext: file_ext }, function (err, docsInserted) {
                                         console.log(docsInserted);
                                         res.writeHead(200);
-                                        res.end(docsInserted._id);
+                                        res.end(docsInserted[0]._id);
                                     })
                                  
                                 }
