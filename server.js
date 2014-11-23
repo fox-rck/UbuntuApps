@@ -49,11 +49,23 @@ var formidable = require('formidable'),
         collection.find({ _id: req.params.id }).toArray(function (err, results) {
             console.dir(results);
             if (results[0]) {
-                var filePath = path.join(process.env.PWD, '/uploads/', results[0].name+'.'+results[0].ext);
+                var filePath = path.join(process.env.PWD, '/uploads/', results[0].name + '.' + results[0].ext);
+                var stat = fs.statSync(filePath);
+                console.log(filePath);
+                res.writeHead(200, {
+                    'Content-Type': 'image/JPEG',
+                    'Content-Length': stat.size
+                });
+
+                var readStream = fs.createReadStream(filePath);
+                // We replaced all the event handlers with a simple call to readStream.pipe()
+                readStream.pipe(res);
+            } else {
+                res.end("File not found");
             }
         // Let's close the db
     });
-        res.end("found");
+      
     });
 
     // handler for /user/:id which renders a special page
