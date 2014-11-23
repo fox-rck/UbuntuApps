@@ -3,7 +3,7 @@ var formidable = require('formidable'),
     util = require('util');
     fs = require('fs'),
     path = require('path'),
-    Thumbbot = require('thumbbot'),
+  //  Thumbbot = require('thumbbot'),
     express = require('express'),
     mongo = require('mongodb');
     var app = express();
@@ -112,11 +112,11 @@ var formidable = require('formidable'),
                                         console.log(newElm);
                                         res.writeHead(200,{ 'content-type': 'text/json' });
                                         res.end(JSON.stringify({ name: newElm._id.toString(), ext: file_ext }));
-                                        if (file_ext == "jpg") {
-                                            var image = new Thumbbot(new_path);
-                                            image.resize(200, 200); // width, height
-                                            var thumbnail = image.save();
-                                        }
+                                        //if (file_ext == "jpg") {
+                                        //    var image = new Thumbbot(new_path);
+                                        //    image.resize(200, 200); // width, height
+                                        //    var thumbnail = image.save();
+                                        //}
                                     })
                                  
                                 }
